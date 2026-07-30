@@ -1,0 +1,6 @@
+{
+  "name": "남양주시 모빌리티 대시보드",
+  "description": "자동차 관리사업, 전동킥보드 업체현황, 자동차 및 화물차 등록 통계를 제공하는 대시보드",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

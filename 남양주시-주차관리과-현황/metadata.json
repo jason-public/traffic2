@@ -1,0 +1,6 @@
+{
+  "name": "주차관리과 현황",
+  "description": "주차관리과 일반 현황, 공영주차장 운영 현황 및 조성 추진 현황 대시보드",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

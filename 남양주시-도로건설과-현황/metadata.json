@@ -1,0 +1,6 @@
+{
+  "name": "도로건설과 사업 현황 대시보드",
+  "description": "국도·국지도·지방도 및 시군도·도시계획도로 사업 추진 현황 및 도로 일반 현황 통합 관리 시스템",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
