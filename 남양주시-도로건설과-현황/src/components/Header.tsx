@@ -32,40 +32,22 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="bg-slate-800 text-blue-400 text-[11px] font-semibold px-2 py-0.5 rounded border border-slate-700/60 tracking-wider">
-                  남양주시 도로건설과
+                <span className="bg-slate-800 text-blue-400 text-[15px] font-semibold px-2 py-0.5 rounded-md border border-slate-700/60 tracking-wider">
+                  도로건설과
                 </span>
-                <span className="text-slate-400 text-xs font-mono">시정통합시스템</span>
+                <a
+                  href="https://traffic-2026-7.vercel.app/"
+                  className="bg-blue-600 hover:bg-blue-500 text-white text-[15px] font-semibold px-2 py-0.5 rounded-md border border-blue-500 tracking-wider transition-colors cursor-pointer"
+                >
+                  교통국 현황
+                </a>
               </div>
-              <h1 className="text-lg sm:text-xl font-bold tracking-tight text-white flex items-center gap-2 mt-0.5">
-                도로 건설 및 유지보수 현황 관리
-              </h1>
             </div>
           </div>
 
           {/* Quick Actions & Search */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             
-            {/* Global Search */}
-            <div className="relative w-full sm:w-64">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => onSearchChange(e.target.value)}
-                placeholder="사업명, 구간, 지역 검색..."
-                className="w-full bg-slate-900/90 border border-slate-700/70 rounded-lg py-1.5 pl-9 pr-8 text-xs sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              />
-              {searchTerm && (
-                <button
-                  onClick={() => onSearchChange('')}
-                  className="absolute right-2.5 top-2 text-slate-400 hover:text-white text-xs"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
             {/* Buttons */}
             <button
               onClick={onOpenAddModal}

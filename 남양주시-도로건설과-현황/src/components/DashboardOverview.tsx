@@ -184,16 +184,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
       </div>
 
-      {/* Top 4 Key Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 shrink-0">
+      {/* Top Key Metric Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 shrink-0">
         
-        {/* Total Projects */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-34 text-center">
-          <h3 className="text-slate-500 text-sm font-medium">전체 진행 사업</h3>
-          <p className="text-3xl font-bold text-slate-900">{totalCount}<span className="text-sm font-normal text-slate-400 ml-1">건</span></p>
-          <div className="text-xs text-blue-600 font-semibold">국·도비 12건 / 시군도 47건</div>
-        </div>
-
         {/* Total Budget */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-34 text-center">
           <h3 className="text-slate-500 text-sm font-medium">총 투입 예산 (조/억)</h3>
