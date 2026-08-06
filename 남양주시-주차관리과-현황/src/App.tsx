@@ -177,25 +177,19 @@ export default function App() {
               <h1 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
                 남양주시 주차관리과
               </h1>
-              <span className="hidden sm:inline-block text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded border border-slate-200 font-mono">
-                교통도로국
-              </span>
             </div>
           </div>
 
-          {/* Search & Header Controls */}
+          {/* Header Controls */}
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="relative hidden sm:block w-48 md:w-64">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                placeholder="지역구, 사업명 검색..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-slate-50 text-slate-800 text-xs rounded-lg pl-8 pr-3 py-1.5 border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
-              />
-            </div>
-
+            <a
+              href="https://traffic-2026-7.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow-xs"
+            >
+              <span>교통국 현황</span>
+            </a>
             <button
               onClick={() => setShowDocView(true)}
               className="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow-xs"

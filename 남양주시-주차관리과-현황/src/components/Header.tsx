@@ -47,6 +47,10 @@ export const Header: React.FC<HeaderProps> = ({
               placeholder="지역, 사업명 검색..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
               className="w-full bg-slate-800 text-slate-100 text-xs rounded-lg pl-9 pr-3 py-2 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
