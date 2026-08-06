@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { GtxPhase2Item } from '../types';
-import { Network, ArrowRight, Route, HelpCircle, Layers, ExternalLink, Map, X, Maximize2, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import { Network, ArrowRight, Route, HelpCircle, Layers, ExternalLink, Map, X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import gtxMapImg from '../../img/GTX 신규노선도.jpg';
 
 interface Props {
@@ -341,16 +341,6 @@ export const GtxPhase2Section: React.FC<Props> = ({ lines }) => {
                   </button>
                 </div>
 
-                <a
-                  href={gtxMapImg}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors text-xs font-semibold flex items-center gap-1.5 border border-slate-700"
-                  title="새 창으로 원본 보기"
-                >
-                  <Maximize2 className="w-4 h-4" />
-                  <span className="hidden sm:inline">새 창으로 보기</span>
-                </a>
                 <button
                   onClick={() => {
                     setShowMapModal(false);
