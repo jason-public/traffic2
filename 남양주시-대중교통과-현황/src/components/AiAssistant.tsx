@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Bot, Send, Sparkles, User, RefreshCw, AlertCircle } from 'lucide-react';
+import { Bot, Send, Sparkles, User, RefreshCw } from 'lucide-react';
+import { getKnowledgeBaseReply } from '../data/knowledgeBase';
 
 interface Message {
   id: string;
@@ -56,29 +57,34 @@ export const AiAssistant: React.FC = () => {
         body: JSON.stringify({ prompt: promptText, history })
       });
 
-      const data = await res.json();
-
-      if (data.error) {
-        throw new Error(data.error);
+      if (!res.ok) {
+        throw new Error(`Server status ${res.status}`);
       }
+
+      const data = await res.json();
+      const replyText = data.reply || getKnowledgeBaseReply(promptText);
 
       const botMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: 'assistant',
-        text: data.reply || '답변을 불러오지 못했습니다.',
+        text: replyText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
       setMessages((prev) => [...prev, botMsg]);
     } catch (err: any) {
-      console.error('AI error:', err);
-      const errorMsg: Message = {
+      console.warn('Network or API fetch failed, using Knowledge Base fallback:', err);
+      // Seamless Knowledge Base Fallback so AI Assistant works even offline / in static mode
+      const fallbackText = getKnowledgeBaseReply(promptText);
+
+      const botMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: 'assistant',
-        text: `죄송합니다. 서비스 통신 중 오류가 발생했습니다: ${err.message || '다시 시도해주세요.'}`,
+        text: fallbackText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
-      setMessages((prev) => [...prev, errorMsg]);
+
+      setMessages((prev) => [...prev, botMsg]);
     } finally {
       setLoading(false);
     }
