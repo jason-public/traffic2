@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { GtxPhase2Item } from '../types';
-import { Network, ArrowRight, Route, HelpCircle, Layers } from 'lucide-react';
+import { Network, ArrowRight, Route, HelpCircle, Layers, ExternalLink } from 'lucide-react';
 
 interface Props {
   lines: GtxPhase2Item[];
@@ -16,13 +16,22 @@ export const GtxPhase2Section: React.FC<Props> = ({ lines }) => {
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-5 border-b border-slate-200 mb-6">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold text-sm flex items-center justify-center">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold text-sm flex items-center justify-center shrink-0">
               3
             </span>
             <h2 className="text-xl font-bold text-slate-900 tracking-tight">
               신규 2기 GTX-D, E, F, G 노선
             </h2>
+            <a
+              href="https://nyj-gtx.netlify.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-colors shadow-sm ml-1"
+            >
+              <span>GTX 완전정복</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 pl-9">
             2024. 1. 25. 국토교통부 발표 및 2024. 5. 제5차 국가철도망 구축계획 건의 노선

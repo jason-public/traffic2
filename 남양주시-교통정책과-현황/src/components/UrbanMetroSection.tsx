@@ -78,8 +78,8 @@ export const UrbanMetroSection: React.FC<Props> = ({ metros }) => {
                 contentStyle={{ backgroundColor: '#0F172A', color: '#fff', borderRadius: '8px' }}
               />
               <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }} />
-              <Bar dataKey="진접선" fill="#3B82F6" radius={[4, 4, 0, 0]} name="진접선 (4호선)" />
-              <Bar dataKey="별내선" fill="#10B981" radius={[4, 4, 0, 0]} name="별내선 (8호선)" />
+              <Bar dataKey="진접선" fill="#38BDF8" radius={[4, 4, 0, 0]} name="진접선 (4호선)" />
+              <Bar dataKey="별내선" fill="#EC4899" radius={[4, 4, 0, 0]} name="별내선 (8호선)" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -95,8 +95,8 @@ export const UrbanMetroSection: React.FC<Props> = ({ metros }) => {
               key={metro.id}
               className={`rounded-2xl p-6 border transition-all space-y-5 ${
                 isByeolnae
-                  ? 'bg-gradient-to-b from-emerald-50/80 via-white to-slate-50/50 border-emerald-300'
-                  : 'bg-gradient-to-b from-blue-50/80 via-white to-slate-50/50 border-blue-300'
+                  ? 'bg-gradient-to-b from-pink-50/80 via-white to-slate-50/50 border-pink-300'
+                  : 'bg-gradient-to-b from-sky-50/80 via-white to-slate-50/50 border-sky-300'
               }`}
             >
               {/* Card Header */}
@@ -105,8 +105,8 @@ export const UrbanMetroSection: React.FC<Props> = ({ metros }) => {
                   <span
                     className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${
                       isByeolnae
-                        ? 'bg-emerald-600 text-white'
-                        : 'bg-blue-600 text-white'
+                        ? 'bg-pink-600 text-white'
+                        : 'bg-sky-500 text-white'
                     }`}
                   >
                     {isByeolnae ? '8호선 연장' : '4호선 연장'}
