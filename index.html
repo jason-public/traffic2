@@ -1,15 +1,760 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko" translate="no" class="notranslate">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google" content="notranslate" />
-    <meta name="googlebot" content="notranslate" />
-    <title>남양주시 대중교통 현황</title>
-  </head>
-  <body class="notranslate" translate="no">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>교통국 일반현황 - 남양주시 통합보드</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#026597',
+                            700: '#034e75',
+                            900: '#0c2a40',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(2, 132, 199, 0.25);
+        }
+        .navy-card {
+            background: linear-gradient(135deg, rgba(15, 31, 68, 0.92) 0%, rgba(24, 48, 102, 0.82) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .navy-card:hover {
+            border-color: rgba(129, 140, 248, 0.65);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(79, 70, 229, 0.4);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-badge-1 { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .gradient-badge-2 { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .gradient-badge-3 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .gradient-badge-4 { background: linear-gradient(135deg, #f43f5e, #e11d48); }
+        .gradient-badge-5 { background: linear-gradient(135deg, #0284c7, #2563eb); }
 
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased text-slate-100 selection:bg-sky-500 selection:text-white">
+
+    <!-- Header Section -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                
+                <!-- Brand Title -->
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-sky-500/20 ring-2 ring-white/10 animate-pulse-slow">
+                        <i data-lucide="compass" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold tracking-wide uppercase bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                                남양주시 교통국
+                            </span>
+                            <span class="text-xs text-slate-400 flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                통합 시스템 운영 중
+                            </span>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mt-0.5">
+                            교통국 일반현황
+                        </h1>
+                    </div>
+                </div>
+
+
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- VIEW 1: Grid Board (Default) -->
+        <section id="viewGrid" class="space-y-6">
+            
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="layout-grid" class="w-5 h-5 text-sky-400"></i>
+                        부서별 현황
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">각 부서 카드를 클릭하면 해당 부서의 웹사이트가 새 창에서 열립니다.</p>
+                </div>
+            </div>
+
+            <!-- Department Cards Grid (1 to 5) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="deptGrid">
+
+                <!-- 1. 교통정책과 -->
+                <a href="./남양주시-교통정책과-현황/dist/index.html" target="_blank" class="dept-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all" data-dept-id="1" data-keywords="교통정책과 철도 GTX 지하철 광역교통 ITS">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all"></div>
+                    
+                    <div>
+                        <!-- Header Pill & Badge -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-2xl gradient-badge-1 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                                    1
+                                </span>
+                                <div>
+                                    <span class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider block">Division 01</span>
+                                    <h4 class="text-xl font-extrabold text-white group-hover:text-indigo-300 transition-colors">
+                                        교통정책과
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 group-hover:bg-indigo-500/20 transition-all">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                            광역철도망(GTX-B, D/E/F, 지하철 4·8·9호선 연장) 확충, 광역교통 종합대책 및 지능형 교통체계(ITS) 구축 현황
+                        </p>
+                    </div>
+                </a>
+
+                <!-- 2. 대중교통과 -->
+                <a href="./남양주시-대중교통과-현황/dist/index.html" target="_blank" class="dept-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all" data-dept-id="2" data-keywords="대중교통과 버스 택시 땡큐버스 바르미 K패스 교통약자">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
+                    
+                    <div>
+                        <!-- Header Pill & Badge -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-2xl gradient-badge-2 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                                    2
+                                </span>
+                                <div>
+                                    <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block">Division 02</span>
+                                    <h4 class="text-xl font-extrabold text-white group-hover:text-emerald-300 transition-colors">
+                                        대중교통과
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-all">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                            시내·마을버스, 땡큐버스 체계 개편, 택시 서비스 개선, 교통약자 이동지원(바르미), K-패스 및 교통비 지원
+                        </p>
+                    </div>
+                </a>
+
+                <!-- 3. 주차관리과 -->
+                <a href="./남양주시-주차관리과-현황/dist/index.html" target="_blank" class="dept-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all" data-dept-id="3" data-keywords="주차관리과 공영주차장 주차장 스마트주차 주차환경 주차단속">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all"></div>
+                    
+                    <div>
+                        <!-- Header Pill & Badge -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-2xl gradient-badge-3 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-amber-500/30">
+                                    3
+                                </span>
+                                <div>
+                                    <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">Division 03</span>
+                                    <h4 class="text-xl font-extrabold text-white group-hover:text-amber-300 transition-colors">
+                                        주차관리과
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20 group-hover:bg-amber-500/20 transition-all">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                            공영주차장 조성 및 운영, 스마트 주차 안내 시스템 구축, 주차 환경 개선 사업, 내집안 주차장 지원
+                        </p>
+                    </div>
+                </a>
+
+                <!-- 4. 자동차관리과 -->
+                <a href="./남양주시-자동차관리과-현황/dist/index.html" target="_blank" class="dept-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all" data-dept-id="4" data-keywords="자동차관리과 자동차 등록 정기검사 이륜차 건설기계 과태료 대포차">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl group-hover:bg-rose-500/20 transition-all"></div>
+                    
+                    <div>
+                        <!-- Header Pill & Badge -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-2xl gradient-badge-4 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-rose-500/30">
+                                    4
+                                </span>
+                                <div>
+                                    <span class="text-[11px] font-bold text-rose-400 uppercase tracking-wider block">Division 04</span>
+                                    <h4 class="text-xl font-extrabold text-white group-hover:text-rose-300 transition-colors">
+                                        자동차관리과
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center border border-rose-500/20 group-hover:bg-rose-500/20 transition-all">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                            자동차·건설기계·이륜차 신규·이전·말소 등록 업무, 정기검사 관리, 불법 차량 단속 및 체납 과태료 관리
+                        </p>
+                    </div>
+                </a>
+
+                <!-- 5. 도로건설과 -->
+                <a href="./남양주시-도로건설과-현황/dist/index.html" target="_blank" class="dept-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all" data-dept-id="5" data-keywords="도로건설과 도로 국도 지방도 고속도로 도로개설 시설물안전">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl group-hover:bg-sky-500/20 transition-all"></div>
+                    
+                    <div>
+                        <!-- Header Pill & Badge -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-2xl gradient-badge-5 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-sky-500/30">
+                                    5
+                                </span>
+                                <div>
+                                    <span class="text-[11px] font-bold text-sky-400 uppercase tracking-wider block">Division 05</span>
+                                    <h4 class="text-xl font-extrabold text-white group-hover:text-sky-300 transition-colors">
+                                        도로건설과
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center border border-sky-500/20 group-hover:bg-sky-500/20 transition-all">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                            국도·지방도·시도 도로망 확충 사업, 도로 개설, 성남-광주-남양주 고속도로 건설 추진 및 도로 시설물 안전 관리
+                        </p>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- 편리한 교통정보 Section -->
+            <div class="space-y-6 pt-8 border-t border-slate-800/80 mt-10">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-sky-400"></i>
+                            남양주 편리한 교통정보
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">남양주시 주요 교통 서비스 및 현황 바로가기 링크입니다.</p>
+                    </div>
+                    <span class="text-xs text-slate-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                        대외 교통 서비스 (5개)
+                    </span>
+                </div>
+
+                <!-- Convenient Traffic Info Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- 1. 남양주 교통정보 -->
+                    <a href="https://traffic.nyj.go.kr/index.view" target="_blank" rel="noopener noreferrer" class="navy-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl group-hover:bg-sky-500/20 transition-all"></div>
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-sky-500/30">
+                                        <i data-lucide="navigation" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] font-bold text-sky-400 uppercase tracking-wider block">Traffic Info</span>
+                                        <h4 class="text-xl font-extrabold text-white group-hover:text-sky-300 transition-colors">
+                                            남양주 교통정보
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center border border-sky-500/20 group-hover:bg-sky-500/20 transition-all">
+                                    <i data-lucide="external-link" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                                실시간 교통 소통 정보, 도로 CCTV, 교통 통제 정보 및 돌발 상황 안내 시스템
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- 2. 남양주 버스현황 -->
+                    <a href="https://www.nyj.go.kr/www/contents.do?key=4688" target="_blank" rel="noopener noreferrer" class="navy-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                                        <i data-lucide="bus" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block">Bus Service</span>
+                                        <h4 class="text-xl font-extrabold text-white group-hover:text-emerald-300 transition-colors">
+                                            남양주 버스현황
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-all">
+                                    <i data-lucide="external-link" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                                시내·마을버스 및 땡큐버스 노선 안내, 운행 현황, 정류장 및 버스 도착 정보
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- 3. 남양주 철도 현황 -->
+                    <a href="https://www.nyj.go.kr/www/contents.do?key=3108" target="_blank" rel="noopener noreferrer" class="navy-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all"></div>
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-400 to-violet-600 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                                        <i data-lucide="train" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider block">Railway Network</span>
+                                        <h4 class="text-xl font-extrabold text-white group-hover:text-indigo-300 transition-colors">
+                                            남양주 철도 현황
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 group-hover:bg-indigo-500/20 transition-all">
+                                    <i data-lucide="external-link" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                                GTX-B, 지하철 4·8·9호선 연장 사업 현황, 경춘선·경의중앙선 철도망 안내
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- 4. 남양주시 교통약자 이동지원센터 -->
+                    <a href="https://dreamcall.nyj.go.kr/" target="_blank" rel="noopener noreferrer" class="navy-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl group-hover:bg-rose-500/20 transition-all"></div>
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-rose-400 to-pink-600 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-rose-500/30">
+                                        <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] font-bold text-rose-400 uppercase tracking-wider block">Mobility Support</span>
+                                        <h4 class="text-xl font-extrabold text-white group-hover:text-rose-300 transition-colors">
+                                            교통약자 이동지원센터
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center border border-rose-500/20 group-hover:bg-rose-500/20 transition-all">
+                                    <i data-lucide="external-link" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                                특별교통수단(희망콜 / 바르미) 이용 안내, 차량 예약 신청 및 교통약자 지원 서비스
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- 5. 남양주 공영주차장 현황 -->
+                    <a href="https://www.nyj.go.kr/www/contents.do?key=3113" target="_blank" rel="noopener noreferrer" class="navy-card rounded-3xl overflow-hidden flex flex-col justify-between p-6 relative group cursor-pointer block hover:scale-[1.02] transition-all">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all"></div>
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-white font-extrabold text-lg flex items-center justify-center shadow-lg shadow-amber-500/30">
+                                        <i data-lucide="square-parking" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">Parking Info</span>
+                                        <h4 class="text-xl font-extrabold text-white group-hover:text-amber-300 transition-colors">
+                                            남양주 공영주차장 현황
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20 group-hover:bg-amber-500/20 transition-all">
+                                    <i data-lucide="external-link" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                                남양주시 관내 공영주차장 위치, 층별/면적 정보, 주차 요금 및 운영 시간 안내
+                            </p>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- VIEW 2: Integrated Live Viewer (Embedded iframe modal view) -->
+        <section id="viewViewer" class="hidden space-y-4">
+            
+            <!-- Viewer Top Bar -->
+            <div class="glass-panel rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 border border-slate-700/80">
+                
+                <!-- Department Switcher Tabs (Strict 1-5 Order) -->
+                <div class="flex items-center overflow-x-auto no-scrollbar gap-2" id="viewerDeptTabs">
+                    <!-- Javascript populates tab buttons for 1..5 -->
+                </div>
+
+                <!-- Device Frame Controls & Actions -->
+                <div class="flex items-center gap-2">
+                    <!-- Responsive Size Switcher -->
+                    <div class="hidden sm:flex items-center bg-slate-900/90 rounded-xl p-1 border border-slate-800">
+                        <button onclick="setFrameSize('100%')" id="btnWidthFull" class="px-2.5 py-1 rounded-lg text-xs font-medium text-sky-400 bg-slate-800">데스크톱</button>
+                        <button onclick="setFrameSize('768px')" id="btnWidthTablet" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white">태블릿</button>
+                        <button onclick="setFrameSize('390px')" id="btnWidthMobile" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white">모바일</button>
+                    </div>
+
+                    <button onclick="refreshIframe()" class="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700 hover:bg-slate-700" title="새로고침">
+                        <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+                    </button>
+
+                    <a id="btnOpenNewTab" href="#" target="_blank" class="px-3 py-2 rounded-xl bg-slate-800 text-slate-200 hover:text-white text-xs font-semibold flex items-center gap-1.5 border border-slate-700 hover:bg-slate-700">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        새 창에서 열기
+                    </a>
+
+                    <button onclick="switchView('grid')" class="px-3 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1 border border-slate-700">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                        닫기
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Iframe Container -->
+            <div class="glass-panel rounded-3xl overflow-hidden border border-slate-700/80 shadow-2xl flex justify-center bg-slate-950 min-h-[750px] relative">
+                <iframe id="mainIframe" src="about:blank" class="w-full h-[750px] border-none transition-all duration-300 rounded-2xl bg-slate-900" title="부서 현황 웹사이트"></iframe>
+            </div>
+
+        </section>
+
+        <!-- VIEW 3: Split View Mode (Side-by-Side Comparison) -->
+        <section id="viewSplit" class="hidden space-y-4">
+            
+            <div class="glass-panel rounded-2xl p-4 flex items-center justify-between border border-slate-700/80">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="columns" class="w-5 h-5 text-sky-400"></i>
+                    <h3 class="font-bold text-white text-sm">2개 부서 웹사이트 실시간 비교 뷰어</h3>
+                </div>
+                <button onclick="switchView('grid')" class="px-3 py-1.5 bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold rounded-lg border border-slate-700">
+                    카드 보드로 돌아가기
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                
+                <!-- Left Frame -->
+                <div class="glass-panel rounded-2xl overflow-hidden border border-slate-700/80 p-3 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-sky-400"></span> 왼쪽 화면:
+                        </label>
+                        <select id="selectLeftDept" onchange="changeSplitDept('left', this.value)" class="bg-slate-900 text-xs text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-sky-500">
+                            <option value="1" selected>1. 교통정책과</option>
+                            <option value="2">2. 대중교통과</option>
+                            <option value="3">3. 주차관리과</option>
+                            <option value="4">4. 자동차관리과</option>
+                            <option value="5">5. 도로건설과</option>
+                        </select>
+                    </div>
+                    <iframe id="iframeLeft" src="./남양주시-교통정책과-현황/dist/index.html" class="w-full h-[650px] border-none rounded-xl bg-slate-900"></iframe>
+                </div>
+
+                <!-- Right Frame -->
+                <div class="glass-panel rounded-2xl overflow-hidden border border-slate-700/80 p-3 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 오른쪽 화면:
+                        </label>
+                        <select id="selectRightDept" onchange="changeSplitDept('right', this.value)" class="bg-slate-900 text-xs text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-sky-500">
+                            <option value="1">1. 교통정책과</option>
+                            <option value="2" selected>2. 대중교통과</option>
+                            <option value="3">3. 주차관리과</option>
+                            <option value="4">4. 자동차관리과</option>
+                            <option value="5">5. 도로건설과</option>
+                        </select>
+                    </div>
+                    <iframe id="iframeRight" src="./남양주시-대중교통과-현황/dist/index.html" class="w-full h-[650px] border-none rounded-xl bg-slate-900"></iframe>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 glass-panel mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-slate-200">남양주시 교통국</span>
+                <span>|</span>
+                <span>교통정책과 · 대중교통과 · 주차관리과 · 자동차관리과 · 도로건설과</span>
+            </div>
+            <div>
+                © 2026 Namyangju City Transportation Bureau. Integrated Dashboard.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Department Registry (Strict 1-5 Order)
+        const DEPARTMENTS = [
+            {
+                id: 1,
+                name: "1. 교통정책과",
+                shortName: "교통정책과",
+                path: "./남양주시-교통정책과-현황/dist/index.html",
+                color: "indigo"
+            },
+            {
+                id: 2,
+                name: "2. 대중교통과",
+                shortName: "대중교통과",
+                path: "./남양주시-대중교통과-현황/dist/index.html",
+                color: "emerald"
+            },
+            {
+                id: 3,
+                name: "3. 주차관리과",
+                shortName: "주차관리과",
+                path: "./남양주시-주차관리과-현황/dist/index.html",
+                color: "amber"
+            },
+            {
+                id: 4,
+                name: "4. 자동차관리과",
+                shortName: "자동차관리과",
+                path: "./남양주시-자동차관리과-현황/dist/index.html",
+                color: "rose"
+            },
+            {
+                id: 5,
+                name: "5. 도로건설과",
+                shortName: "도로건설과",
+                path: "./남양주시-도로건설과-현황/dist/index.html",
+                color: "sky"
+            }
+        ];
+
+        let currentActiveDeptId = 1;
+
+        // Initialize Icons & UI
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderViewerTabs();
+        });
+
+        // Switch Main Views (grid | viewer | split)
+        function switchView(viewMode, deptId = 1) {
+            const gridEl = document.getElementById('viewGrid');
+            const viewerEl = document.getElementById('viewViewer');
+            const splitEl = document.getElementById('viewSplit');
+
+            const btnGrid = document.getElementById('btnViewGrid');
+            const btnViewer = document.getElementById('btnViewViewer');
+            const btnSplit = document.getElementById('btnViewSplit');
+
+            // Reset tabs style
+            btnGrid.className = "flex items-center gap-1.5 px-3 py-2 bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold rounded-xl border border-slate-700 hover:bg-slate-700 transition-all";
+            btnViewer.className = "flex items-center gap-1.5 px-3 py-2 bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold rounded-xl border border-slate-700 hover:bg-slate-700 transition-all";
+            btnSplit.className = "flex items-center gap-1.5 px-3 py-2 bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold rounded-xl border border-slate-700 hover:bg-slate-700 transition-all";
+
+            gridEl.classList.add('hidden');
+            viewerEl.classList.add('hidden');
+            splitEl.classList.add('hidden');
+
+            if (viewMode === 'grid') {
+                gridEl.classList.remove('hidden');
+                btnGrid.className = "flex items-center gap-1.5 px-3 py-2 bg-sky-600 text-white text-xs font-semibold rounded-xl hover:bg-sky-500 transition-all shadow-md";
+            } else if (viewMode === 'viewer') {
+                viewerEl.classList.remove('hidden');
+                btnViewer.className = "flex items-center gap-1.5 px-3 py-2 bg-sky-600 text-white text-xs font-semibold rounded-xl hover:bg-sky-500 transition-all shadow-md";
+                loadDeptInViewer(deptId);
+            } else if (viewMode === 'split') {
+                splitEl.classList.remove('hidden');
+                btnSplit.className = "flex items-center gap-1.5 px-3 py-2 bg-sky-600 text-white text-xs font-semibold rounded-xl hover:bg-sky-500 transition-all shadow-md";
+            }
+        }
+
+        // Render Top Viewer Tabs for 1 to 5
+        function renderViewerTabs() {
+            const container = document.getElementById('viewerDeptTabs');
+            container.innerHTML = DEPARTMENTS.map(dept => `
+                <button onclick="loadDeptInViewer(${dept.id})" id="viewerTab_${dept.id}" 
+                    class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">
+                    <span>${dept.name}</span>
+                </button>
+            `).join('');
+        }
+
+        // Open Department in Viewer
+        function openDeptViewer(deptId) {
+            switchView('viewer', deptId);
+        }
+
+        // Load iframe & activate tab
+        function loadDeptInViewer(deptId) {
+            currentActiveDeptId = deptId;
+            const dept = DEPARTMENTS.find(d => d.id === deptId) || DEPARTMENTS[0];
+
+            const iframe = document.getElementById('mainIframe');
+            iframe.src = dept.path;
+
+            const btnOpenNewTab = document.getElementById('btnOpenNewTab');
+            btnOpenNewTab.href = dept.path;
+
+            // Highlight Active Tab
+            DEPARTMENTS.forEach(d => {
+                const tab = document.getElementById(`viewerTab_${d.id}`);
+                if (tab) {
+                    if (d.id === deptId) {
+                        tab.className = `px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 bg-sky-600 text-white shadow-md`;
+                    } else {
+                        tab.className = `px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700`;
+                    }
+                }
+            });
+        }
+
+        // Refresh Frame
+        function refreshIframe() {
+            const iframe = document.getElementById('mainIframe');
+            iframe.src = iframe.src;
+        }
+
+        // Responsive Size Toggle for Viewer Frame
+        function setFrameSize(width) {
+            const iframe = document.getElementById('mainIframe');
+            iframe.style.width = width;
+
+            const bFull = document.getElementById('btnWidthFull');
+            const bTab = document.getElementById('btnWidthTablet');
+            const bMob = document.getElementById('btnWidthMobile');
+
+            [bFull, bTab, bMob].forEach(b => {
+                b.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white";
+            });
+
+            if (width === '100%') bFull.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-sky-400 bg-slate-800";
+            if (width === '768px') bTab.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-sky-400 bg-slate-800";
+            if (width === '390px') bMob.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-sky-400 bg-slate-800";
+        }
+
+        // Change Split View Department
+        function changeSplitDept(side, deptId) {
+            const dept = DEPARTMENTS.find(d => d.id === parseInt(deptId));
+            if (!dept) return;
+
+            if (side === 'left') {
+                document.getElementById('iframeLeft').src = dept.path;
+            } else {
+                document.getElementById('iframeRight').src = dept.path;
+            }
+        }
+
+        // Scroll to specific department card
+        function scrollToDept(id) {
+            switchView('grid');
+            const card = document.querySelector(`.dept-card[data-dept-id="${id}"]`);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.classList.add('ring-2', 'ring-sky-500');
+                setTimeout(() => card.classList.remove('ring-2', 'ring-sky-500'), 2500);
+            }
+        }
+
+        // Filter cards by search input
+        function filterDepartments() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.dept-card');
+
+            cards.forEach(card => {
+                const keywords = card.getAttribute('data-keywords').toLowerCase();
+                const textContent = card.innerText.toLowerCase();
+
+                if (textContent.includes(query) || keywords.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
