@@ -1,0 +1,6 @@
+{
+  "name": "남양주시 대중교통 현황 및 정책 플랫폼",
+  "description": "남양주시 대중교통 수송분담률, 버스 및 택시 현황, 땡큐·M버스, 스마트 승강장, 교통비 지원 정책 (K-패스, 어르신, 청소년) 현황 정보 시스템",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
