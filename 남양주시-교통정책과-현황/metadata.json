@@ -1,6 +1,0 @@
-{
-  "name": "교통정책 및 현황 대시보드",
-  "description": "철도망 상위계획, GTX 노선, 도시철도 운행현황, 대중교통 및 교통안전 시설 통합 정보 시스템",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
