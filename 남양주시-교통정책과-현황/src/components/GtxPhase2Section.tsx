@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GtxPhase2Item } from '../types';
-import { Network, ArrowRight, Route, HelpCircle, Layers, ExternalLink } from 'lucide-react';
+import { Network, ArrowRight, Route, HelpCircle, Layers, ExternalLink, Map, X, Maximize2, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import gtxMapImg from '../../img/GTX 신규노선도.jpg';
 
 interface Props {
   lines: GtxPhase2Item[];
@@ -8,6 +9,52 @@ interface Props {
 
 export const GtxPhase2Section: React.FC<Props> = ({ lines }) => {
   const [selectedLineId, setSelectedLineId] = useState<string>('gtx-d');
+  const [showMapModal, setShowMapModal] = useState<boolean>(false);
+
+  // Zoom & Pan state
+  const [zoomScale, setZoomScale] = useState<number>(1);
+  const [panPosition, setPanPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  const handleZoomIn = () => setZoomScale((prev) => Math.min(prev + 0.25, 4));
+  const handleZoomOut = () => {
+    setZoomScale((prev) => {
+      const newScale = Math.max(prev - 0.25, 0.5);
+      if (newScale <= 1) setPanPosition({ x: 0, y: 0 });
+      return newScale;
+    });
+  };
+  const handleResetZoom = () => {
+    setZoomScale(1);
+    setPanPosition({ x: 0, y: 0 });
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (e.deltaY < 0) {
+      handleZoomIn();
+    } else {
+      handleZoomOut();
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (zoomScale > 1) {
+      setIsDragging(true);
+      setDragStart({ x: e.clientX - panPosition.x, y: e.clientY - panPosition.y });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging && zoomScale > 1) {
+      setPanPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y,
+      });
+    }
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
 
   const currentLine = lines.find((l) => l.id === selectedLineId) || lines[0];
 
@@ -33,8 +80,15 @@ export const GtxPhase2Section: React.FC<Props> = ({ lines }) => {
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 pl-9">
-            2024. 1. 25. 국토교통부 발표 및 2024. 5. 제5차 국가철도망 구축계획 건의 노선
+          <p className="text-xs sm:text-sm text-slate-500 mt-1 pl-9 flex flex-wrap items-center gap-2">
+            <span>2024. 1. 25. 국토교통부 발표 및 2024. 5. 제5차 국가철도망 구축계획 건의 노선</span>
+            <button
+              onClick={() => setShowMapModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs transition-colors shadow-sm cursor-pointer ml-1"
+            >
+              <Map className="w-3.5 h-3.5" />
+              <span>남양주 GTX노선도</span>
+            </button>
           </p>
         </div>
 
@@ -235,6 +289,137 @@ export const GtxPhase2Section: React.FC<Props> = ({ lines }) => {
           <strong>추진 일정:</strong> 2024. 1. 25. 2기 신규 GTX 발표 (국토교통부) ➔ 2024. 5. 제5차 국가철도망 구축계획 건의
         </span>
       </div>
+
+      {/* GTX Map Lightbox Modal */}
+      {showMapModal && (
+        <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-4">
+          <div className="bg-slate-900 border border-slate-700/80 text-white rounded-2xl w-full max-w-[96vw] h-[94vh] flex flex-col overflow-hidden shadow-2xl">
+            {/* Modal Header & Controls */}
+            <div className="px-5 py-3 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-900/95 shrink-0">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-teal-500/20 border border-teal-500/40 text-teal-400 flex items-center justify-center font-bold">
+                  <Map className="w-4 h-4" />
+                </span>
+                <div>
+                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <span>남양주시 2기 GTX 신규 노선도</span>
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">
+                      고화질 노선망
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-400">GTX-D, E, F, G 수도권 광역 노선망 상세도 (마우스 휠/드래그 가능)</p>
+                </div>
+              </div>
+
+              {/* Toolbar: Zoom Controls & Actions */}
+              <div className="flex items-center gap-2 flex-wrap">
+                {/* Zoom Buttons Group */}
+                <div className="flex items-center bg-slate-800 rounded-xl p-1 border border-slate-700">
+                  <button
+                    onClick={handleZoomOut}
+                    className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                    title="축소 (-)"
+                  >
+                    <ZoomOut className="w-4 h-4" />
+                  </button>
+                  <span className="px-2 text-xs font-mono font-bold text-teal-400 min-w-[50px] text-center select-none">
+                    {Math.round(zoomScale * 100)}%
+                  </span>
+                  <button
+                    onClick={handleZoomIn}
+                    className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                    title="확대 (+)"
+                  >
+                    <ZoomIn className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={handleResetZoom}
+                    className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer ml-1 border-l border-slate-700"
+                    title="원본 크기 리셋 (100%)"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                <a
+                  href={gtxMapImg}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors text-xs font-semibold flex items-center gap-1.5 border border-slate-700"
+                  title="새 창으로 원본 보기"
+                >
+                  <Maximize2 className="w-4 h-4" />
+                  <span className="hidden sm:inline">새 창으로 보기</span>
+                </a>
+                <button
+                  onClick={() => {
+                    setShowMapModal(false);
+                    handleResetZoom();
+                  }}
+                  className="p-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-300 hover:text-red-100 transition-colors border border-red-500/30 cursor-pointer"
+                  aria-label="닫기"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Image Viewport Container */}
+            <div
+              onWheel={handleWheel}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onDoubleClick={() => (zoomScale > 1 ? handleResetZoom() : setZoomScale(1.8))}
+              className={`flex-1 overflow-hidden bg-slate-950 flex items-center justify-center p-2 relative select-none ${
+                zoomScale > 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in'
+              }`}
+            >
+              <div
+                style={{
+                  transform: `translate(${panPosition.x}px, ${panPosition.y}px) scale(${zoomScale})`,
+                  transition: isDragging ? 'none' : 'transform 0.2s ease-out',
+                  transformOrigin: 'center center',
+                }}
+                className="max-w-full max-h-full flex items-center justify-center"
+              >
+                <img
+                  src={gtxMapImg}
+                  alt="남양주시 GTX 신규 노선도"
+                  draggable={false}
+                  className="max-w-none w-auto h-auto max-h-[82vh] object-contain rounded-lg shadow-2xl border border-slate-800"
+                />
+              </div>
+
+              {/* Floating Zoom Indicator Toast */}
+              {zoomScale !== 1 && (
+                <div className="absolute bottom-4 left-4 bg-slate-900/90 border border-slate-700 text-teal-300 text-xs px-3 py-1.5 rounded-full shadow-lg pointer-events-none flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+                  <span>드래그로 이동 | 휠로 확대/축소 (더블클릭 리셋)</span>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-5 py-2.5 border-t border-slate-800 flex items-center justify-between bg-slate-900/95 text-xs shrink-0">
+              <div className="text-slate-400 flex items-center gap-2">
+                <span className="font-bold text-teal-400">GTX 노선망:</span>
+                <span>D(팔당), E(덕소), F(왕숙2), G(별내·진접 연계)</span>
+              </div>
+              <button
+                onClick={() => {
+                  setShowMapModal(false);
+                  handleResetZoom();
+                }}
+                className="px-4 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-bold transition-colors cursor-pointer"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
