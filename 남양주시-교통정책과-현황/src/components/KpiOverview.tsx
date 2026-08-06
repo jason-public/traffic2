@@ -22,7 +22,7 @@ export const KpiOverview: React.FC = () => {
     {
       title: '도시철도 일평균 이용객',
       value: `${totalDailyPassengers.toLocaleString()} 명`,
-      subtitle: `별내선 37,075명 + 진접선 33,557명 (2026.7 기준)`,
+      subtitle: `진접선 33,557명 + 별내선 37,075명 (2026.7 기준)`,
       icon: Users,
       color: 'from-emerald-600 to-teal-700',
       textColor: 'text-emerald-600',

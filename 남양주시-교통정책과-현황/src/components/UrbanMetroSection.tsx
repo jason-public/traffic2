@@ -77,7 +77,20 @@ export const UrbanMetroSection: React.FC<Props> = ({ metros }) => {
                 formatter={(value: number) => [`${value.toLocaleString()} 명`, '']}
                 contentStyle={{ backgroundColor: '#0F172A', color: '#fff', borderRadius: '8px' }}
               />
-              <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }} />
+              <Legend
+                content={() => (
+                  <div className="flex items-center justify-center gap-6 pt-3 text-xs font-medium text-slate-600">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#38BDF8] inline-block rounded-xs"></span>
+                      <span>진접선 (4호선)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#EC4899] inline-block rounded-xs"></span>
+                      <span>별내선 (8호선)</span>
+                    </div>
+                  </div>
+                )}
+              />
               <Bar dataKey="진접선" fill="#38BDF8" radius={[4, 4, 0, 0]} name="진접선 (4호선)" />
               <Bar dataKey="별내선" fill="#EC4899" radius={[4, 4, 0, 0]} name="별내선 (8호선)" />
             </BarChart>
